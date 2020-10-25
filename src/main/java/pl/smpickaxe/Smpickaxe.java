@@ -1,5 +1,8 @@
 package pl.smpickaxe;
 
+import net.coreprotect.CoreProtect;
+import net.coreprotect.CoreProtectAPI;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Smpickaxe extends JavaPlugin {
@@ -11,6 +14,9 @@ public final class Smpickaxe extends JavaPlugin {
         // Plugin startup logic
         plugin = this;
         Pickaxe_POW1.k1_recipe();
+        Pickaxe_POW2.k2_recipe();
+        Pickaxe_POW3.k3_recipe();
+        Pickaxe_POW4.k4_recipe();
         getServer().getPluginManager().registerEvents(new Events(), this);
 
     }
@@ -19,9 +25,13 @@ public final class Smpickaxe extends JavaPlugin {
     public void onDisable() {
         // Plugin shutdown logic
         Pickaxe_POW1.k1_recipe_unregister();
+        Pickaxe_POW2.k2_recipe_unregister();
+        Pickaxe_POW3.k3_recipe_unregister();
+        Pickaxe_POW4.k4_recipe_unregister();
     }
 
     public static Smpickaxe getInstance(){
         return plugin;
     }
+
 }
