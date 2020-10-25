@@ -26,15 +26,15 @@ public class Events implements Listener {
     private void getNearbyBlock(Location loc,Player p,int uno,int dos, int tres) {
         loc.add(uno, dos, tres);
         Material mat = loc.getBlock().getType();
-        p.sendMessage("Sprawdzam blok obok Ciebie:"+mat.toString()+"Lokalizacja:"+loc.toString());
+        //p.sendMessage("Sprawdzam blok obok Ciebie:"+mat.toString()+"Lokalizacja:"+loc.toString());
         if (loc.getBlock().getType().getHardness() < 50 && loc.getBlock().getType().getHardness() >0) {
-            p.sendMessage("Hardness"+String.valueOf(loc.getBlock().getType().getHardness()));
-            p.sendMessage("Nie jest twardy");
+            //p.sendMessage("Hardness"+String.valueOf(loc.getBlock().getType().getHardness()));
+            //p.sendMessage("Nie jest twardy");
             if(mat.equals(Material.CHEST) || mat.equals(Material.ENDER_CHEST) || mat.equals(Material.BEACON)){
                 p.sendMessage("Wokół Ciebie są nielegalne bloki!");
             }
             else {
-                p.sendMessage("Nie jest z czarnej lsity");
+                //p.sendMessage("Nie jest z czarnej lsity");
                 loc.getBlock().breakNaturally();
             }
         }
@@ -47,8 +47,9 @@ public class Events implements Listener {
                 e.getPlayer().getInventory().getItemInMainHand().getType() == Material.NETHERITE_PICKAXE) {
             if (!e.getPlayer().getInventory().getItemInMainHand().getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
                 if (e.getBlock().getType() == Material.DIAMOND_ORE) {
-                    int rand = (int) (Math.random() * (300 - 1 + 1) + 1);
+                    int rand = (int) (Math.random() * (230 - 1 + 1) + 1);
                     if (rand == 151) {
+                        Bukkit.broadcastMessage(ChatColor.BLUE +" "+ ChatColor.BOLD+"Gracz "+e.getPlayer().getName()+" wykopał rzadki rubin! Gratulacje!");
                         e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), CustomDiamond.createCustomDiamond());
                     }
                 }

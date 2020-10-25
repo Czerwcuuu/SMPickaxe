@@ -16,7 +16,7 @@ public class CustomDiamond {
     }
 
     public static ItemStack createCustomDiamond(){
-        ItemStack customdiamond = new ItemStack(Material.DIAMOND);
+        ItemStack customdiamond = new ItemStack(Material.WHITE_DYE);
         ItemMeta meta = customdiamond.getItemMeta();
         ArrayList<String> lore = new ArrayList<>();
         lore.add("Bardzo Rzadki Rubin, pilnuj go!");

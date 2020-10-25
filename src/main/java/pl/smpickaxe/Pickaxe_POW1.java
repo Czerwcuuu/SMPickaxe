@@ -24,6 +24,7 @@ public class Pickaxe_POW1 {
         ArrayList<String> lorek1 = new ArrayList<>();
         lorek1.add("Kilof kopiący tunel 2x1");
         lorek1.add("Możesz go ulepszyć!");
+        lorek1.add("Możesz go użyć tylko na mapie surowcowej!");
         meta.setDisplayName(ChatColor.BLUE + "Kilof Poziomu 1");
         meta.setLore(lorek1);
 
