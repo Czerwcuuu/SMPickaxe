@@ -1,8 +1,5 @@
 package pl.smpickaxe;
 
-import net.coreprotect.CoreProtect;
-import net.coreprotect.CoreProtectAPI;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Smpickaxe extends JavaPlugin {

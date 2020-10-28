@@ -1,6 +1,5 @@
 package pl.smpickaxe;
 
-import net.coreprotect.CoreProtectAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -18,12 +17,10 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 import java.util.Objects;
 
-import static sun.security.krb5.Confounder.intValue;
-
 public class Events implements Listener {
     public static HashMap<String, Integer> blockFace = new HashMap<>();
 
-    private void getNearbyBlock(Location loc,Player p,int uno,int dos, int tres) {
+    private void getNearbyBlock(Location loc,Player p,int uno,int dos, int tres,BlockBreakEvent e) {
         loc.add(uno, dos, tres);
         Material mat = loc.getBlock().getType();
         //p.sendMessage("Sprawdzam blok obok Ciebie:"+mat.toString()+"Lokalizacja:"+loc.toString());
@@ -35,7 +32,20 @@ public class Events implements Listener {
             }
             else {
                 //p.sendMessage("Nie jest z czarnej lsity");
-                loc.getBlock().breakNaturally();
+                if(e instanceof MojaZajebistaKlasa){
+                    return;
+                }
+                MojaZajebistaKlasa fakeEvent = new MojaZajebistaKlasa(loc.getBlock(),p);
+                Bukkit.getPluginManager().callEvent(fakeEvent);
+
+                if(!fakeEvent.isCancelled()){
+                    //Bukkit.broadcastMessage("nie anulowany");
+                    loc.getBlock().breakNaturally();
+                }
+                else{
+                    //Bukkit.broadcastMessage("anulowany");
+                }
+
             }
         }
     }
@@ -77,98 +87,103 @@ public class Events implements Listener {
     public void BreakUsing21Pickaxe(BlockBreakEvent e){
         Player p = e.getPlayer();
         if(e.isCancelled()) return;
+        try{
         if(Objects.requireNonNull(p.getInventory().getItemInMainHand().getItemMeta()).getDisplayName().equals(ChatColor.BLUE+"Kilof Poziomu 1")) {
             Location loc = e.getBlock().getLocation();
             if((Integer) blockFace.get(p.getName()) == 1){
-                getNearbyBlock(loc,p,-1,0,0);
+                getNearbyBlock(loc,p,-1,0,0,e);
             }
             else{
-                getNearbyBlock(loc,p,0,-1,0);
+                getNearbyBlock(loc,p,0,-1,0,e);
             }
 
         }
         else if(Objects.requireNonNull(p.getInventory().getItemInMainHand().getItemMeta()).getDisplayName().equals(ChatColor.BLUE + "Kilof Poziomu 2")) {
-            e.getPlayer().sendMessage("Poziom 2");
+            //e.getPlayer().sendMessage("Poziom 2");
             Location loc = e.getBlock().getLocation();
             if((Integer) blockFace.get(p.getName()) == 1) {
-                getNearbyBlock(loc,p,1,0,0);
-                getNearbyBlock(loc,p,0,0,-1);
-                getNearbyBlock(loc,p,-1,0,0);
+                getNearbyBlock(loc,p,1,0,0,e);
+                getNearbyBlock(loc,p,0,0,-1,e);
+                getNearbyBlock(loc,p,-1,0,0,e);
             }
             else if(p.getFacing() == BlockFace.EAST || p.getFacing() == BlockFace.WEST){
-                getNearbyBlock(loc,p,0,0,1);
-                getNearbyBlock(loc,p,0,-1,0);
-                getNearbyBlock(loc,p,0,0,-1);
+                getNearbyBlock(loc,p,0,0,1,e);
+                getNearbyBlock(loc,p,0,-1,0,e);
+                getNearbyBlock(loc,p,0,0,-1,e);
             }
             else{
-                getNearbyBlock(loc,p,0,-1,0);
-                getNearbyBlock(loc,p,1,0,0);
-                getNearbyBlock(loc,p,0,1,0);
+                getNearbyBlock(loc,p,0,-1,0,e);
+                getNearbyBlock(loc,p,1,0,0,e);
+                getNearbyBlock(loc,p,0,1,0,e);
             }
 
 
 
         }
         else if(Objects.requireNonNull(p.getInventory().getItemInMainHand().getItemMeta()).getDisplayName().equals(ChatColor.BLUE + "Kilof Poziomu 3")) {
-            e.getPlayer().sendMessage("Poziom 3");
+            //e.getPlayer().sendMessage("Poziom 3");
             Location loc = e.getBlock().getLocation();
             if((Integer) blockFace.get(p.getName()) == 1){
-                getNearbyBlock(loc,p,0,0,1);
-                getNearbyBlock(loc,p,1,0,0);
-                getNearbyBlock(loc,p,0,0,-1);
-                getNearbyBlock(loc,p,0,0,-1);
-                getNearbyBlock(loc,p,-1,0,0);
+                getNearbyBlock(loc,p,0,0,1,e);
+                getNearbyBlock(loc,p,1,0,0,e);
+                getNearbyBlock(loc,p,0,0,-1,e);
+                getNearbyBlock(loc,p,0,0,-1,e);
+                getNearbyBlock(loc,p,-1,0,0,e);
             }
             else if(e.getPlayer().getFacing() == BlockFace.EAST || e.getPlayer().getFacing() == BlockFace.WEST){
-                getNearbyBlock(loc,p,0,-1,0);
-                getNearbyBlock(loc,p,0,0,1);
-                getNearbyBlock(loc,p,0,0,-2);
-                getNearbyBlock(loc,p,0,1,0);
-                getNearbyBlock(loc,p,0,0,2);
+                getNearbyBlock(loc,p,0,-1,0,e);
+                getNearbyBlock(loc,p,0,0,1,e);
+                getNearbyBlock(loc,p,0,0,-2,e);
+                getNearbyBlock(loc,p,0,1,0,e);
+                getNearbyBlock(loc,p,0,0,2,e);
             }
             else{
-                getNearbyBlock(loc,p,0,-1,0);
-                getNearbyBlock(loc,p,1,0,0);
-                getNearbyBlock(loc,p,-2,0,0);
-                getNearbyBlock(loc,p,0,1,0);
-                getNearbyBlock(loc,p,2,0,0);
+                getNearbyBlock(loc,p,0,-1,0,e);
+                getNearbyBlock(loc,p,1,0,0,e);
+                getNearbyBlock(loc,p,-2,0,0,e);
+                getNearbyBlock(loc,p,0,1,0,e);
+                getNearbyBlock(loc,p,2,0,0,e);
             }
 
 
         }
         else if(Objects.requireNonNull(p.getInventory().getItemInMainHand().getItemMeta()).getDisplayName().equals(ChatColor.BLUE + "Kilof Poziomu 4")) {
-            e.getPlayer().sendMessage("Poziom 4");
+            //e.getPlayer().sendMessage("Poziom 4");
             Location loc = e.getBlock().getLocation();
             if((Integer)blockFace.get(e.getPlayer().getName()).intValue() == 1){
-                getNearbyBlock(loc,p,0,0,1);
-                getNearbyBlock(loc,p,1,0,0);
-                getNearbyBlock(loc,p,0,0,-1);
-                getNearbyBlock(loc,p,0,0,-1);
-                getNearbyBlock(loc,p,-1,0,0);
-                getNearbyBlock(loc,p,-1,0,0);
-                getNearbyBlock(loc,p,0,0,1);
-                getNearbyBlock(loc,p,0,0,1);
+                getNearbyBlock(loc,p,0,0,1,e);
+                getNearbyBlock(loc,p,1,0,0,e);
+                getNearbyBlock(loc,p,0,0,-1,e);
+                getNearbyBlock(loc,p,0,0,-1,e);
+                getNearbyBlock(loc,p,-1,0,0,e);
+                getNearbyBlock(loc,p,-1,0,0,e);
+                getNearbyBlock(loc,p,0,0,1,e);
+                getNearbyBlock(loc,p,0,0,1,e);
             }
             else if(e.getPlayer().getFacing() == BlockFace.EAST || e.getPlayer().getFacing() == BlockFace.WEST){
-                getNearbyBlock(loc,p,0,1,0);
-                getNearbyBlock(loc,p,0,-2,0);
-                getNearbyBlock(loc,p,0,0,1);
-                getNearbyBlock(loc,p,0,0,-2);
-                getNearbyBlock(loc,p,0,1,0);
-                getNearbyBlock(loc,p,0,0,2);
-                getNearbyBlock(loc,p,0,1,0);
-                getNearbyBlock(loc,p,0,0,-2);
+                getNearbyBlock(loc,p,0,1,0,e);
+                getNearbyBlock(loc,p,0,-2,0,e);
+                getNearbyBlock(loc,p,0,0,1,e);
+                getNearbyBlock(loc,p,0,0,-2,e);
+                getNearbyBlock(loc,p,0,1,0,e);
+                getNearbyBlock(loc,p,0,0,2,e);
+                getNearbyBlock(loc,p,0,1,0,e);
+                getNearbyBlock(loc,p,0,0,-2,e);
             }
             else{
-                getNearbyBlock(loc,p,0,1,0);
-                getNearbyBlock(loc,p,0,-2,0);
-                getNearbyBlock(loc,p,1,0,0);
-                getNearbyBlock(loc,p,-2,0,0);
-                getNearbyBlock(loc,p,0,1,0);
-                getNearbyBlock(loc,p,2,0,0);
-                getNearbyBlock(loc,p,0,1,0);
-                getNearbyBlock(loc,p,-2,0,0);
+                getNearbyBlock(loc,p,0,1,0,e);
+                getNearbyBlock(loc,p,0,-2,0,e);
+                getNearbyBlock(loc,p,1,0,0,e);
+                getNearbyBlock(loc,p,-2,0,0,e);
+                getNearbyBlock(loc,p,0,1,0,e);
+                getNearbyBlock(loc,p,2,0,0,e);
+                getNearbyBlock(loc,p,0,1,0,e);
+                getNearbyBlock(loc,p,-2,0,0,e);
             }
+        }
+    }
+        catch (NullPointerException ex){
+            return;
         }
     }
 
