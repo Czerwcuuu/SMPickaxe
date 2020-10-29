@@ -24,7 +24,7 @@ public class CreatePickaxe {
         lorek1.add("Możesz go użyć tylko na mapie surowcowej!");
         meta.setDisplayName(ChatColor.BLUE+"Kilof "+ile);
         meta.setLore(lorek1);
-        if(Bukkit.getRecipe(NamespacedKey.minecraft("k"+ile)) == null) {
+        if(Bukkit.getRecipe(klucz(ile)) == null) {
             RecipeChoice k1 = new RecipeChoice.ExactChoice(G);
             RecipeChoice k2 = new RecipeChoice.ExactChoice(I);
             k.setItemMeta(meta);
@@ -38,6 +38,12 @@ public class CreatePickaxe {
         }
 
         return k;
+    }
+    public static NamespacedKey klucz(String ile){
+        return new NamespacedKey(Smpickaxe.getInstance(), "k"+ile);
+    }
+    public static boolean recipe_unregister(String ile) {
+        return Bukkit.removeRecipe(klucz(ile));
     }
 
 }

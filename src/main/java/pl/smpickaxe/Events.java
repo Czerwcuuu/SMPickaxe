@@ -13,15 +13,17 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.Recipe;
 
 import java.util.HashMap;
-import java.util.Objects;
+import java.util.List;
 
 public class Events implements Listener {
     public static HashMap<String, Integer> blockFace = new HashMap<>();
     ItemStack pickaxe1 = CreatePickaxe.newPickaxe("1x2",new ItemStack(Material.STICK), CustomDiamond.createCustomDiamond());
     ItemStack pickaxe2 = CreatePickaxe.newPickaxe("2x2",pickaxe1, pickaxe1);
+    ItemStack pickaxe3 = CreatePickaxe.newPickaxe("2x3",pickaxe2, pickaxe2);
+    ItemStack pickaxe4 = CreatePickaxe.newPickaxe("3x3",pickaxe3, pickaxe3);
 
     private void getNearbyBlock(Player p, int uno, int dos, int tres, BlockBreakEvent e) {
         Location a;
@@ -97,8 +99,7 @@ public class Events implements Listener {
 
         if (e.isCancelled()) return;
         try {
-            String itemname = Objects.requireNonNull(p.getInventory().getItemInMainHand().getItemMeta()).getDisplayName();
-            int s = getpickaxe(itemname, p);
+            int s = getpickaxe(p);
             // Kopanie w dol i gore
 
 
@@ -232,15 +233,15 @@ public class Events implements Listener {
         }*/
     }
 
-    public int getpickaxe(String name, Player p) {
+    public int getpickaxe(Player p) {
         String itemname = p.getInventory().getItemInMainHand().getItemMeta().getDisplayName();
         if (itemname.equals(pickaxe1.getItemMeta().getDisplayName())) {
             return 1;
         } else if (itemname.equals(pickaxe2.getItemMeta().getDisplayName())) {
             return 2;
-        } else if (name.equals(ChatColor.BLUE + "Kilof Poziomu 3")) {
+        } else if (itemname.equals(pickaxe3.getItemMeta().getDisplayName())) {
             return 3;
-        } else if (name.equals(ChatColor.BLUE + "Kilof Poziomu 4")) {
+        } else if (itemname.equals(pickaxe4.getItemMeta().getDisplayName())) {
             return 4;
         }
         return 0;
