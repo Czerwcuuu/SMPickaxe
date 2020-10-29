@@ -9,18 +9,16 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 
 public class CustomDiamond {
-    public static final NamespacedKey Custom_Diamond = new NamespacedKey(Smpickaxe.getInstance(),"custom_diamond");
-
-    private CustomDiamond(){
+    private CustomDiamond() {
     }
 
-    public static ItemStack createCustomDiamond(){
+    public static ItemStack createCustomDiamond() {
         ItemStack customdiamond = new ItemStack(Material.WHITE_DYE);
         ItemMeta meta = customdiamond.getItemMeta();
         ArrayList<String> lore = new ArrayList<>();
         lore.add("Bardzo Rzadki Rubin, pilnuj go!");
         meta.setLore(lore);
-        meta.setDisplayName(ChatColor.DARK_RED+"Rubin");
+        meta.setDisplayName(ChatColor.DARK_RED + "Rubin");
         customdiamond.setItemMeta(meta);
 
         return customdiamond;
