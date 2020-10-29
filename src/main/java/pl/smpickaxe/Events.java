@@ -13,26 +13,24 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Recipe;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class Events implements Listener {
     public static HashMap<String, Integer> blockFace = new HashMap<>();
-    ItemStack pickaxe1 = CreatePickaxe.newPickaxe("1x2",new ItemStack(Material.STICK), CustomDiamond.createCustomDiamond());
-    ItemStack pickaxe2 = CreatePickaxe.newPickaxe("2x2",pickaxe1, pickaxe1);
-    ItemStack pickaxe3 = CreatePickaxe.newPickaxe("2x3",pickaxe2, pickaxe2);
-    ItemStack pickaxe4 = CreatePickaxe.newPickaxe("3x3",pickaxe3, pickaxe3);
+    ItemStack pickaxe1 = CreatePickaxe.newPickaxe("1x2", new ItemStack(Material.STICK), CustomDiamond.createCustomDiamond());
+    ItemStack pickaxe2 = CreatePickaxe.newPickaxe("2x2", pickaxe1, pickaxe1);
+    ItemStack pickaxe3 = CreatePickaxe.newPickaxe("2x3", pickaxe2, pickaxe2);
+    ItemStack pickaxe4 = CreatePickaxe.newPickaxe("3x3", pickaxe3, pickaxe3);
 
     private void getNearbyBlock(Player p, int uno, int dos, int tres, BlockBreakEvent e) {
         Location a;
-        if (EASTorWEST(p) || blockFace.get(p.getName()) == 1){
+        if (EASTorWEST(p) || blockFace.get(p.getName()) == 1) {
             a = e.getBlock().getLocation().add(uno, dos, tres);
         } else {
             a = e.getBlock().getLocation().add(tres, dos, uno);
         }
-        Material mat = e.getBlock().getLocation().getBlock().getType();
+        Material mat = a.getBlock().getType();
         //p.sendMessage("Sprawdzam blok obok Ciebie:"+mat.toString()+"Lokalizacja:"+loc.toString());
         if (mat.getHardness() < 50 && mat.getHardness() > 0) {
             //p.sendMessage("Hardness"+String.valueOf(loc.getBlock().getType().getHardness()));
@@ -83,9 +81,11 @@ public class Events implements Listener {
         Material itemInHand = p.getInventory().getItemInMainHand().getType();
         BlockFace bFace = event.getBlockFace();
         if (itemInHand.equals(Material.DIAMOND_PICKAXE)) {
-            if (bFace == BlockFace.UP || bFace == BlockFace.DOWN){
+            if (bFace == BlockFace.UP || bFace == BlockFace.DOWN) {
                 blockFace.put(p.getName(), 1);
-            } else {blockFace.put(p.getName(), 0);}
+            } else {
+                blockFace.put(p.getName(), 0);
+            }
 
         }
     }
