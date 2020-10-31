@@ -14,6 +14,7 @@ public final class Smpickaxe extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         plugin = this;
+
         //Pickaxe_POW1.k1_recipe();
         //Pickaxe_POW2.k2_recipe();
         //Pickaxe_POW3.k3_recipe();
@@ -25,10 +26,10 @@ public final class Smpickaxe extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        //Pickaxe_POW1.k1_recipe_unregister();
-        //Pickaxe_POW2.k2_recipe_unregister();
-        //Pickaxe_POW3.k3_recipe_unregister();
-        //Pickaxe_POW4.k4_recipe_unregister();
+        CreatePickaxe.recipe_unregister("1x2");
+        CreatePickaxe.recipe_unregister("2x2");
+        CreatePickaxe.recipe_unregister("2x3");
+        CreatePickaxe.recipe_unregister("3x3");
     }
 
 }

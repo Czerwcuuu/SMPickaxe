@@ -13,18 +13,18 @@ import java.util.ArrayList;
 
 public class CreatePickaxe {
     public static ItemStack newPickaxe(String ile, ItemStack I, ItemStack G) {
-        NamespacedKey klucz = new NamespacedKey(Smpickaxe.getInstance(), "k"+ile);
+        NamespacedKey klucz = new NamespacedKey(Smpickaxe.getInstance(), "k" + ile);
 
         ItemStack k = new ItemStack(Material.DIAMOND_PICKAXE);
         ItemMeta meta = k.getItemMeta();
 
         ArrayList<String> lorek1 = new ArrayList<>();
-        lorek1.add("Kilof kopiący tunel "+ile);
+        lorek1.add("Kilof kopiący tunel " + ile);
         lorek1.add("Możesz go ulepszyć!");
         lorek1.add("Możesz go użyć tylko na mapie surowcowej!");
-        meta.setDisplayName(ChatColor.BLUE+"Kilof "+ile);
+        meta.setDisplayName(ChatColor.BLUE + "Kilof " + ile);
         meta.setLore(lorek1);
-        if(Bukkit.getRecipe(NamespacedKey.minecraft("k"+ile)) == null) {
+        if (Bukkit.getRecipe(klucz(ile)) == null) {
             RecipeChoice k1 = new RecipeChoice.ExactChoice(G);
             RecipeChoice k2 = new RecipeChoice.ExactChoice(I);
             k.setItemMeta(meta);
@@ -38,6 +38,14 @@ public class CreatePickaxe {
         }
 
         return k;
+    }
+
+    public static NamespacedKey klucz(String ile) {
+        return new NamespacedKey(Smpickaxe.getInstance(), "k" + ile);
+    }
+
+    public static boolean recipe_unregister(String ile) {
+        return Bukkit.removeRecipe(klucz(ile));
     }
 
 }
