@@ -58,28 +58,30 @@ public class Events implements Listener {
 
     @EventHandler
     public void BreakDiamondEvent(BlockBreakEvent e) {
-        ItemStack hand = e.getPlayer().getInventory().getItemInMainHand();
-        Block block = e.getBlock();
-        if (!block.getDrops(hand).isEmpty()) {
-            if (!hand.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
-                if (block.getType() == Material.DIAMOND_ORE) {
-                    int rand = (int) (Math.random() * (230 - 1 + 1) + 1);
-                    if (rand == 151) {
-                        Bukkit.broadcastMessage(ChatColor.BLUE + " " + ChatColor.BOLD + "Gracz " + e.getPlayer().getName() + " wykopał rzadki rubin! Gratulacje!");
-                        block.getWorld().dropItemNaturally(block.getLocation(), CustomDiamond.createCustomDiamond());
+        if(!e.isCancelled()) {
+            ItemStack hand = e.getPlayer().getInventory().getItemInMainHand();
+            Block block = e.getBlock();
+            if (!block.getDrops(hand).isEmpty()) {
+                if (!hand.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
+                    if (block.getType() == Material.DIAMOND_ORE) {
+                        int rand = (int) (Math.random() * (230 - 1 + 1) + 1);
+                        if (rand == 151) {
+                            Bukkit.broadcastMessage(ChatColor.BLUE + " " + ChatColor.BOLD + "Gracz " + e.getPlayer().getName() + " wykopał rzadki rubin! Gratulacje!");
+                            block.getWorld().dropItemNaturally(block.getLocation(), CustomDiamond.createCustomDiamond());
+                        }
                     }
                 }
+
+
             }
-
-
         }
     }
 
     @EventHandler
-    public void getBlockFace(PlayerInteractEvent event) {
-        Player p = event.getPlayer();
+    public void getBlockFace(PlayerInteractEvent e) {
+        Player p = e.getPlayer();
         Material itemInHand = p.getInventory().getItemInMainHand().getType();
-        BlockFace bFace = event.getBlockFace();
+        BlockFace bFace = e.getBlockFace();
         if (itemInHand.equals(Material.DIAMOND_PICKAXE)) {
             if (bFace == BlockFace.UP || bFace == BlockFace.DOWN) {
                 blockFace.put(p.getName(), 1);
