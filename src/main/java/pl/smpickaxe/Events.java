@@ -11,17 +11,21 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Events implements Listener {
     public static HashMap<String, Integer> blockFace = new HashMap<>();
-    ItemStack pickaxe1 = CreatePickaxe.newPickaxe("1x2", new ItemStack(Material.STICK), CustomDiamond.createCustomDiamond());
-    ItemStack pickaxe2 = CreatePickaxe.newPickaxe("2x2", pickaxe1, pickaxe1);
-    ItemStack pickaxe3 = CreatePickaxe.newPickaxe("2x3", pickaxe2, pickaxe2);
-    ItemStack pickaxe4 = CreatePickaxe.newPickaxe("3x3", pickaxe3, pickaxe3);
+    ItemStack pickaxe1 = CreatePickaxe.newPickaxe("1x2", CustomDiamond.createCustomDiamond(), new ItemStack(Material.STICK), CustomDiamond.createCustomDiamond(), new ItemStack(Material.AIR), new ItemStack(Material.DIAMOND_PICKAXE));
+    ItemStack pickaxe2 = CreatePickaxe.newPickaxe("2x2", pickaxe1, pickaxe1, pickaxe1, new ItemStack(Material.AIR),  new ItemStack(Material.DIAMOND_PICKAXE));
+    ItemStack pickaxe3 = CreatePickaxe.newPickaxe("2x3", pickaxe2, pickaxe2, pickaxe2, new ItemStack(Material.AIR),  new ItemStack(Material.DIAMOND_PICKAXE));
+    ItemStack pickaxe4 = CreatePickaxe.newPickaxe("3x3", pickaxe3, pickaxe3, pickaxe3, new ItemStack(Material.AIR),  new ItemStack(Material.DIAMOND_PICKAXE));
+    ItemStack axe = CreatePickaxe.newPickaxe(null, CustomDiamond.createCustomDiamond(), new ItemStack(Material.STICK), new ItemStack(Material.AIR), CustomDiamond.createCustomDiamond(),  new ItemStack(Material.DIAMOND_AXE));
 
     private void getNearbyBlock(Player p, int uno, int dos, int tres, BlockBreakEvent e) {
         Location a;
@@ -172,7 +176,51 @@ public class Events implements Listener {
         return p.getFacing() == BlockFace.EAST || p.getFacing() == BlockFace.WEST;
     }
 
+    @EventHandler
+    public void BrakingUseAxe(BlockBreakEvent e) {
+        try{
 
+            if(!e.isCancelled() && e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(axe.getItemMeta().getDisplayName())){
+            Material type = e.getBlock().getType();
+            if (type == Material.ACACIA_LOG || type == Material.BIRCH_LOG || type == Material.DARK_OAK_LOG || type == Material.JUNGLE_LOG || type == Material.OAK_LOG || type == Material.SPRUCE_LOG){
+                droptree(e.getBlock().getLocation());
+                Location saploc = e.getBlock().getLocation().add(0, -1, 0);
+                Material sapling = saploc.getBlock().getType();
+                if(sapling == Material.DIRT){
+                    //sadzenie saplingu
+                    Bukkit.getWorld(e.getBlock().getWorld().getName()).getBlockAt(e.getBlock().getLocation()).setType(Material.OAK_SAPLING);
+                }
+            }
+        } else {
+            return; }
+        } catch (NullPointerException ex){
+            return;
+        }
 
+    }
+    public void droptree(Location l){
+        List<Block> blocks = new LinkedList<>();
+        for (int i = l.getBlockY(); i < l.getWorld().getHighestBlockYAt(l.getBlockX(), l.getBlockZ()); i++ ) {
+            Block loc = Bukkit.getWorld(l.getWorld().getName()).getBlockAt(l.getBlockX(), i, l.getBlockZ());
+            Material type = loc.getType();
+            if (type == Material.ACACIA_LOG || type == Material.BIRCH_LOG || type == Material.DARK_OAK_LOG || type == Material.JUNGLE_LOG || type == Material.OAK_LOG || type == Material.SPRUCE_LOG) {
+                blocks.add(loc);
+            } else {
+                break;
+            }
+
+        }
+        for (Block block : blocks){ block.breakNaturally(axe);}
+        blocks.clear();
+    }
+
+    @EventHandler
+    public void anvilname(PrepareAnvilEvent e){
+        if(e.getResult() != null) {
+            if (e.getResult().getType() == Material.WHITE_DYE) {
+                e.setResult(null);
+            }
+        }
+    }
 
 }
