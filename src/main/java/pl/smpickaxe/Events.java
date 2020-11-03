@@ -21,11 +21,11 @@ import java.util.List;
 
 public class Events implements Listener {
     public static HashMap<String, Integer> blockFace = new HashMap<>();
-    ItemStack pickaxe1 = CreatePickaxe.newPickaxe("1x2", CustomDiamond.createCustomDiamond(), new ItemStack(Material.STICK), CustomDiamond.createCustomDiamond(), new ItemStack(Material.AIR), new ItemStack(Material.DIAMOND_PICKAXE));
-    ItemStack pickaxe2 = CreatePickaxe.newPickaxe("2x2", pickaxe1, pickaxe1, pickaxe1, new ItemStack(Material.AIR),  new ItemStack(Material.DIAMOND_PICKAXE));
-    ItemStack pickaxe3 = CreatePickaxe.newPickaxe("2x3", pickaxe2, pickaxe2, pickaxe2, new ItemStack(Material.AIR),  new ItemStack(Material.DIAMOND_PICKAXE));
-    ItemStack pickaxe4 = CreatePickaxe.newPickaxe("3x3", pickaxe3, pickaxe3, pickaxe3, new ItemStack(Material.AIR),  new ItemStack(Material.DIAMOND_PICKAXE));
-    ItemStack axe = CreatePickaxe.newPickaxe(null, CustomDiamond.createCustomDiamond(), new ItemStack(Material.STICK), new ItemStack(Material.AIR), CustomDiamond.createCustomDiamond(),  new ItemStack(Material.DIAMOND_AXE));
+    ItemStack pickaxe1 = CreatePickaxe.newPickaxe("1x2", CustomDiamond.createCustomDiamond(), CustomDiamond.createCustomDiamond(),new ItemStack(Material.AIR), new ItemStack(Material.STICK), new ItemStack(Material.DIAMOND_PICKAXE));
+    ItemStack pickaxe2 = CreatePickaxe.newPickaxe("2x2", pickaxe1, pickaxe1, new ItemStack(Material.AIR), pickaxe1,  new ItemStack(Material.DIAMOND_PICKAXE));
+    ItemStack pickaxe3 = CreatePickaxe.newPickaxe("2x3", pickaxe2, pickaxe2, new ItemStack(Material.AIR), pickaxe2,  new ItemStack(Material.DIAMOND_PICKAXE));
+    ItemStack pickaxe4 = CreatePickaxe.newPickaxe("3x3", pickaxe3, pickaxe3, new ItemStack(Material.AIR), pickaxe3,  new ItemStack(Material.DIAMOND_PICKAXE));
+    ItemStack axe = CreatePickaxe.newPickaxe("1", CustomDiamond.createCustomDiamond(), new ItemStack(Material.AIR), CustomDiamond.createCustomDiamond(), new ItemStack(Material.STICK),  new ItemStack(Material.DIAMOND_AXE));
 
     private void getNearbyBlock(Player p, int uno, int dos, int tres, BlockBreakEvent e) {
         Location a;
@@ -51,7 +51,7 @@ public class Events implements Listener {
 
                 if (!fakeEvent.isCancelled()) {
                     //Bukkit.broadcastMessage("nie anulowany");
-                    a.getBlock().breakNaturally();
+                    a.getBlock().breakNaturally(p.getInventory().getItemInMainHand());
                 }
                 //Bukkit.broadcastMessage("anulowany");
 
@@ -159,14 +159,14 @@ public class Events implements Listener {
 
 
     public int getpickaxe(Player p) {
-        String itemname = p.getInventory().getItemInMainHand().getItemMeta().getDisplayName();
-        if (itemname.equals(pickaxe1.getItemMeta().getDisplayName())) {
+        List<String> lore = p.getInventory().getItemInMainHand().getItemMeta().getLore();
+        if (lore.get(0).equals(pickaxe1.getItemMeta().getLore().get(0))) {
             return 1;
-        } else if (itemname.equals(pickaxe2.getItemMeta().getDisplayName())) {
+        } else if (lore.get(0).equals(pickaxe2.getItemMeta().getLore().get(0))) {
             return 2;
-        } else if (itemname.equals(pickaxe3.getItemMeta().getDisplayName())) {
+        } else if (lore.get(0).equals(pickaxe3.getItemMeta().getLore().get(0))) {
             return 3;
-        } else if (itemname.equals(pickaxe4.getItemMeta().getDisplayName())) {
+        } else if (lore.get(0).equals(pickaxe4.getItemMeta().getLore().get(0))) {
             return 4;
         }
         return 0;
@@ -180,10 +180,10 @@ public class Events implements Listener {
     public void BrakingUseAxe(BlockBreakEvent e) {
         try{
 
-            if(!e.isCancelled() && e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(axe.getItemMeta().getDisplayName())){
+            if(!e.isCancelled() && e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.BLUE + "Timber")){
             Material type = e.getBlock().getType();
             if (type == Material.ACACIA_LOG || type == Material.BIRCH_LOG || type == Material.DARK_OAK_LOG || type == Material.JUNGLE_LOG || type == Material.OAK_LOG || type == Material.SPRUCE_LOG){
-                droptree(e.getBlock().getLocation());
+                droptree(e.getBlock().getLocation(), e.getPlayer());
                 Location saploc = e.getBlock().getLocation().add(0, -1, 0);
                 Material sapling = saploc.getBlock().getType();
                 if(sapling == Material.DIRT){
@@ -198,7 +198,8 @@ public class Events implements Listener {
         }
 
     }
-    public void droptree(Location l){
+
+    public void droptree(Location l, Player p){
         List<Block> blocks = new LinkedList<>();
         for (int i = l.getBlockY(); i < l.getWorld().getHighestBlockYAt(l.getBlockX(), l.getBlockZ()); i++ ) {
             Block loc = Bukkit.getWorld(l.getWorld().getName()).getBlockAt(l.getBlockX(), i, l.getBlockZ());
@@ -210,10 +211,12 @@ public class Events implements Listener {
             }
 
         }
-        for (Block block : blocks){ block.breakNaturally(axe);}
+        for (Block block : blocks){ block.breakNaturally(p.getInventory().getItemInMainHand());}
         blocks.clear();
     }
 
+
+    //Block Rename white dye
     @EventHandler
     public void anvilname(PrepareAnvilEvent e){
         if(e.getResult() != null) {

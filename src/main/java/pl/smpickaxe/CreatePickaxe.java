@@ -11,19 +11,19 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 
 public class CreatePickaxe {
-    public static ItemStack newPickaxe(String ile, ItemStack D, ItemStack I, ItemStack G, ItemStack S, ItemStack out) {
+    public static ItemStack newPickaxe(String ile, ItemStack A, ItemStack B, ItemStack C, ItemStack I, ItemStack out) {
         NamespacedKey klucz = new NamespacedKey(Smpickaxe.getInstance(), "k" + ile);
 
         ItemStack k = out;
         ItemMeta meta = k.getItemMeta();
 
         ArrayList<String> lorek1 = new ArrayList<>();
-        if (ile != null) {
+        if(ile.equals("1")){
+            lorek1.add("Siekiera zcinajaca drzewa");
+            meta.setDisplayName(ChatColor.BLUE + "Timber");
+        } else {
             lorek1.add("Kilof kopiący tunel " + ile);
             meta.setDisplayName(ChatColor.BLUE + "Kilof " + ile);
-        } else {
-            lorek1.add("Siekiera zcinająca drzewa");
-            meta.setDisplayName(ChatColor.BLUE + "Timber");
         }
         lorek1.add("Możesz go ulepszyć!");
         lorek1.add("Możesz go użyć tylko na mapie surowcowej!");
@@ -31,17 +31,18 @@ public class CreatePickaxe {
 
         meta.setLore(lorek1);
         if (Bukkit.getRecipe(klucz(ile)) == null) {
-            RecipeChoice k1 = new RecipeChoice.ExactChoice(D);
-            RecipeChoice k2 = new RecipeChoice.ExactChoice(I);
-            RecipeChoice k3 = new RecipeChoice.ExactChoice(G);
-            RecipeChoice k4 = new RecipeChoice.ExactChoice(S);
+            RecipeChoice k1 = new RecipeChoice.ExactChoice(A);
+            RecipeChoice k2 = new RecipeChoice.ExactChoice(B);
+            RecipeChoice k3 = new RecipeChoice.ExactChoice(C);
+            RecipeChoice k4 = new RecipeChoice.ExactChoice(I);
             k.setItemMeta(meta);
             ShapedRecipe gp = new ShapedRecipe(klucz, k);
-            gp.shape("DDG", "SI ", " I ");
-            gp.setIngredient('D', k1);
-            gp.setIngredient('I', k2);
-            gp.setIngredient('G', k3);
-            gp.setIngredient('S', k4);
+            gp.shape("AAB" , "CI ", " I ");
+            gp.setIngredient('A', k1);
+            gp.setIngredient('B', k2);
+            gp.setIngredient('C', k3);
+            gp.setIngredient('I', k4);
+
             Bukkit.addRecipe(gp);
         } else {
             Bukkit.broadcastMessage("Recepta jest juz zaladowana");
