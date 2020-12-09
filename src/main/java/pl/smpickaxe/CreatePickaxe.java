@@ -14,11 +14,10 @@ public class CreatePickaxe {
     public static ItemStack newPickaxe(String ile, ItemStack A, ItemStack B, ItemStack C, ItemStack I, ItemStack out) {
         NamespacedKey klucz = new NamespacedKey(Smpickaxe.getInstance(), "k" + ile);
 
-        ItemStack k = out;
-        ItemMeta meta = k.getItemMeta();
+        ItemMeta meta = out.getItemMeta();
 
         ArrayList<String> lorek1 = new ArrayList<>();
-        if(ile.equals("1")){
+        if (ile.equals("1")) {
             lorek1.add("Siekiera zcinajaca drzewa");
             meta.setDisplayName(ChatColor.BLUE + "Timber");
         } else {
@@ -35,9 +34,9 @@ public class CreatePickaxe {
             RecipeChoice k2 = new RecipeChoice.ExactChoice(B);
             RecipeChoice k3 = new RecipeChoice.ExactChoice(C);
             RecipeChoice k4 = new RecipeChoice.ExactChoice(I);
-            k.setItemMeta(meta);
-            ShapedRecipe gp = new ShapedRecipe(klucz, k);
-            gp.shape("AAB" , "CI ", " I ");
+            out.setItemMeta(meta);
+            ShapedRecipe gp = new ShapedRecipe(klucz, out);
+            gp.shape("AAB", "CI ", " I ");
             gp.setIngredient('A', k1);
             gp.setIngredient('B', k2);
             gp.setIngredient('C', k3);
@@ -48,7 +47,7 @@ public class CreatePickaxe {
             Bukkit.broadcastMessage("Recepta jest juz zaladowana");
         }
 
-        return k;
+        return out;
     }
 
     public static NamespacedKey klucz(String ile) {
