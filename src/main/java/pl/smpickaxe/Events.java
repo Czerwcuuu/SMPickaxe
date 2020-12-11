@@ -1,7 +1,6 @@
 package pl.smpickaxe;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -11,17 +10,23 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 
 public class Events implements Listener {
     public static HashMap<String, Integer> blockFace = new HashMap<>();
-    ItemStack pickaxe1 = CreatePickaxe.newPickaxe("1x2", new ItemStack(Material.STICK), CustomDiamond.createCustomDiamond());
-    ItemStack pickaxe2 = CreatePickaxe.newPickaxe("2x2", pickaxe1, pickaxe1);
-    ItemStack pickaxe3 = CreatePickaxe.newPickaxe("2x3", pickaxe2, pickaxe2);
-    ItemStack pickaxe4 = CreatePickaxe.newPickaxe("3x3", pickaxe3, pickaxe3);
+    ItemStack pickaxe1 = CreatePickaxe.newPickaxe("1x2", CustomDiamond.createCustomDiamond(), CustomDiamond.createCustomDiamond(), new ItemStack(Material.AIR), new ItemStack(Material.STICK), new ItemStack(Material.DIAMOND_PICKAXE));
+    ItemStack pickaxe2 = CreatePickaxe.newPickaxe("2x2", pickaxe1, pickaxe1, new ItemStack(Material.AIR), pickaxe1, new ItemStack(Material.DIAMOND_PICKAXE));
+    ItemStack pickaxe3 = CreatePickaxe.newPickaxe("2x3", pickaxe2, pickaxe2, new ItemStack(Material.AIR), pickaxe2, new ItemStack(Material.DIAMOND_PICKAXE));
+    ItemStack pickaxe4 = CreatePickaxe.newPickaxe("3x3", pickaxe3, pickaxe3, new ItemStack(Material.AIR), pickaxe3, new ItemStack(Material.DIAMOND_PICKAXE));
+    ItemStack axe = CreatePickaxe.newPickaxe("1", CustomDiamond.createCustomDiamond(), new ItemStack(Material.AIR), CustomDiamond.createCustomDiamond(), new ItemStack(Material.STICK), new ItemStack(Material.DIAMOND_AXE));
 
     private void getNearbyBlock(Player p, int uno, int dos, int tres, BlockBreakEvent e) {
         Location a;
@@ -31,14 +36,10 @@ public class Events implements Listener {
             a = e.getBlock().getLocation().add(tres, dos, uno);
         }
         Material mat = a.getBlock().getType();
-        //p.sendMessage("Sprawdzam blok obok Ciebie:"+mat.toString()+"Lokalizacja:"+loc.toString());
         if (mat.getHardness() < 50 && mat.getHardness() > 0) {
-            //p.sendMessage("Hardness"+String.valueOf(loc.getBlock().getType().getHardness()));
-            //p.sendMessage("Nie jest twardy");
             if (mat.equals(Material.CHEST) || mat.equals(Material.ENDER_CHEST) || mat.equals(Material.BEACON)) {
                 p.sendMessage("Wokół Ciebie są nielegalne bloki!");
             } else {
-                //p.sendMessage("Nie jest z czarnej lsity");
                 if (e instanceof MojaZajebistaKlasa) {
                     return;
                 }
@@ -46,10 +47,8 @@ public class Events implements Listener {
                 Bukkit.getPluginManager().callEvent(fakeEvent);
 
                 if (!fakeEvent.isCancelled()) {
-                    //Bukkit.broadcastMessage("nie anulowany");
-                    a.getBlock().breakNaturally();
+                    a.getBlock().breakNaturally(p.getInventory().getItemInMainHand());
                 }
-                //Bukkit.broadcastMessage("anulowany");
 
 
             }
@@ -58,29 +57,31 @@ public class Events implements Listener {
 
     @EventHandler
     public void BreakDiamondEvent(BlockBreakEvent e) {
-        ItemStack hand = e.getPlayer().getInventory().getItemInMainHand();
-        Block block = e.getBlock();
-        if (!block.getDrops(hand).isEmpty()) {
-            if (!hand.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
-                if (block.getType() == Material.DIAMOND_ORE) {
-                    int rand = (int) (Math.random() * (230 - 1 + 1) + 1);
-                    if (rand == 151) {
-                        Bukkit.broadcastMessage(ChatColor.BLUE + " " + ChatColor.BOLD + "Gracz " + e.getPlayer().getName() + " wykopał rzadki rubin! Gratulacje!");
-                        block.getWorld().dropItemNaturally(block.getLocation(), CustomDiamond.createCustomDiamond());
+        if (!e.isCancelled()) {
+            ItemStack hand = e.getPlayer().getInventory().getItemInMainHand();
+            Block block = e.getBlock();
+            if (!block.getDrops(hand).isEmpty()) {
+                if (!hand.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
+                    if (block.getType() == Material.DIAMOND_ORE) {
+                        int rand = (int) (Math.random() * (230 - 1 + 1) + 1);
+                        if (rand == 151) {
+                            Bukkit.broadcastMessage("§b§lGracz " + e.getPlayer().getName() + " wykopał rzadki rubin! Gratulacje!");
+                            block.getWorld().dropItemNaturally(block.getLocation(), CustomDiamond.createCustomDiamond());
+                        }
                     }
                 }
+
+
             }
-
-
         }
     }
 
     @EventHandler
-    public void getBlockFace(PlayerInteractEvent event) {
-        Player p = event.getPlayer();
+    public void getBlockFace(PlayerInteractEvent e) {
+        Player p = e.getPlayer();
         Material itemInHand = p.getInventory().getItemInMainHand().getType();
-        BlockFace bFace = event.getBlockFace();
-        if (itemInHand.equals(Material.DIAMOND_PICKAXE)) {
+        BlockFace bFace = e.getBlockFace();
+        if (itemInHand.equals(Material.DIAMOND_PICKAXE) || itemInHand.equals(Material.NETHERITE_PICKAXE)) {
             if (bFace == BlockFace.UP || bFace == BlockFace.DOWN) {
                 blockFace.put(p.getName(), 1);
             } else {
@@ -89,6 +90,7 @@ public class Events implements Listener {
 
         }
     }
+
 
     @EventHandler
     public void BreakUsingPickaxe(BlockBreakEvent e) {
@@ -146,102 +148,18 @@ public class Events implements Listener {
             return;
         }
 
-/*
-        try {
-            Location loc = e.getBlock().getLocation();
-            if (itemname.equals(ChatColor.BLUE + "Kilof Poziomu 1")) {
-
-                if (blockFace.get(p.getName()) == 1) {
-                    getNearbyBlock(loc, p, -1, 0, 0, e);
-                } else {
-                    getNearbyBlock(loc, p, 0, -1, 0, e);
-                }
-
-            } else if (itemname.equals(ChatColor.BLUE + "Kilof Poziomu 2")) {
-                //e.getPlayer().sendMessage("Poziom 2");
-                if (blockFace.get(p.getName()) == 1) {
-                    getNearbyBlock(loc, p, 1, 0, 0, e);
-                    getNearbyBlock(loc, p, 0, 0, -1, e);
-                    getNearbyBlock(loc, p, -1, 0, 0, e);
-                } else if (EASTorWEST(p)) {
-                    getNearbyBlock(loc, p, 0, 0, 1, e);
-                    getNearbyBlock(loc, p, 0, -1, 0, e);
-                    getNearbyBlock(loc, p, 0, 0, -1, e);
-                } else {
-                    getNearbyBlock(loc, p, 0, -1, 0, e);
-                    getNearbyBlock(loc, p, 1, 0, 0, e);
-                    getNearbyBlock(loc, p, 0, 1, 0, e);
-                }
-
-
-            } else if (itemname.equals(ChatColor.BLUE + "Kilof Poziomu 3")) {
-                //e.getPlayer().sendMessage("Poziom 3");
-                if (blockFace.get(p.getName()) == 1) {
-                    getNearbyBlock(loc, p, 0, 0, 1, e);
-                    getNearbyBlock(loc, p, 1, 0, 0, e);
-                    getNearbyBlock(loc, p, 0, 0, -1, e);
-                    getNearbyBlock(loc, p, 0, 0, -1, e);
-                    getNearbyBlock(loc, p, -1, 0, 0, e);
-                } else if (EASTorWEST(p)) {
-                    getNearbyBlock(loc, p, 0, -1, 0, e);
-                    getNearbyBlock(loc, p, 0, 0, 1, e);
-                    getNearbyBlock(loc, p, 0, 0, -2, e);
-                    getNearbyBlock(loc, p, 0, 1, 0, e);
-                    getNearbyBlock(loc, p, 0, 0, 2, e);
-                } else {
-                    getNearbyBlock(loc, p, 0, -1, 0, e);
-                    getNearbyBlock(loc, p, 1, 0, 0, e);
-                    getNearbyBlock(loc, p, -2, 0, 0, e);
-                    getNearbyBlock(loc, p, 0, 1, 0, e);
-                    getNearbyBlock(loc, p, 2, 0, 0, e);
-                }
-
-
-            } else if (itemname.equals(ChatColor.BLUE + "Kilof Poziomu 4")) {
-                //e.getPlayer().sendMessage("Poziom 4");
-                if (blockFace.get(p.getName()) == 1) {
-                    getNearbyBlock(loc, p, 0, 0, 1, e);
-                    getNearbyBlock(loc, p, 1, 0, 0, e);
-                    getNearbyBlock(loc, p, 0, 0, -1, e);
-                    getNearbyBlock(loc, p, 0, 0, -1, e);
-                    getNearbyBlock(loc, p, -1, 0, 0, e);
-                    getNearbyBlock(loc, p, -1, 0, 0, e);
-                    getNearbyBlock(loc, p, 0, 0, 1, e);
-                    getNearbyBlock(loc, p, 0, 0, 1, e);
-                } else if (EASTorWEST(p)) {
-                    getNearbyBlock(loc, p, 0, 1, 0, e);
-                    getNearbyBlock(loc, p, 0, -2, 0, e);
-                    getNearbyBlock(loc, p, 0, 0, 1, e);
-                    getNearbyBlock(loc, p, 0, 0, -2, e);
-                    getNearbyBlock(loc, p, 0, 1, 0, e);
-                    getNearbyBlock(loc, p, 0, 0, 2, e);
-                    getNearbyBlock(loc, p, 0, 1, 0, e);
-                    getNearbyBlock(loc, p, 0, 0, -2, e);
-                } else {
-                    getNearbyBlock(loc, p, 0, 1, 0, e);
-                    getNearbyBlock(loc, p, 0, -2, 0, e);
-                    getNearbyBlock(loc, p, 1, 0, 0, e);
-                    getNearbyBlock(loc, p, -2, 0, 0, e);
-                    getNearbyBlock(loc, p, 0, 1, 0, e);
-                    getNearbyBlock(loc, p, 2, 0, 0, e);
-                    getNearbyBlock(loc, p, 0, 1, 0, e);
-                    getNearbyBlock(loc, p, -2, 0, 0, e);
-                }
-            }
-        } catch (NullPointerException ex) {
-            return;
-        }*/
     }
 
+
     public int getpickaxe(Player p) {
-        String itemname = p.getInventory().getItemInMainHand().getItemMeta().getDisplayName();
-        if (itemname.equals(pickaxe1.getItemMeta().getDisplayName())) {
+        List<String> lore = p.getInventory().getItemInMainHand().getItemMeta().getLore();
+        if (lore.get(0).equals(pickaxe1.getItemMeta().getLore().get(0))) {
             return 1;
-        } else if (itemname.equals(pickaxe2.getItemMeta().getDisplayName())) {
+        } else if (lore.get(0).equals(pickaxe2.getItemMeta().getLore().get(0))) {
             return 2;
-        } else if (itemname.equals(pickaxe3.getItemMeta().getDisplayName())) {
+        } else if (lore.get(0).equals(pickaxe3.getItemMeta().getLore().get(0))) {
             return 3;
-        } else if (itemname.equals(pickaxe4.getItemMeta().getDisplayName())) {
+        } else if (lore.get(0).equals(pickaxe4.getItemMeta().getLore().get(0))) {
             return 4;
         }
         return 0;
@@ -251,5 +169,80 @@ public class Events implements Listener {
         return p.getFacing() == BlockFace.EAST || p.getFacing() == BlockFace.WEST;
     }
 
+    /*
+        @EventHandler
+        public void BrakingUseAxe(BlockBreakEvent e) {
+            try {
+
+                if (!e.isCancelled() && e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.BLUE + "Timber")) {
+                    Material type = e.getBlock().getType();
+                    if (type == Material.ACACIA_LOG || type == Material.BIRCH_LOG || type == Material.DARK_OAK_LOG || type == Material.JUNGLE_LOG || type == Material.OAK_LOG || type == Material.SPRUCE_LOG) {
+                        droptree(e.getBlock().getLocation(), e.getPlayer());
+                        Location saploc = e.getBlock().getLocation().add(0, -1, 0);
+                        Material sapling = saploc.getBlock().getType();
+                        if (sapling == Material.DIRT) {
+                            //sadzenie saplingu
+                            Bukkit.getWorld(e.getBlock().getWorld().getName()).getBlockAt(e.getBlock().getLocation()).setType(Material.OAK_SAPLING);
+                        }
+                    }
+                } else {
+                    return;
+                }
+            } catch (NullPointerException ex) {
+                return;
+            }
+
+        }
+    */
+    public void droptree(Location l, Player p) {
+        List<Block> blocks = new LinkedList<>();
+        for (int i = l.getBlockY(); i < l.getWorld().getHighestBlockYAt(l.getBlockX(), l.getBlockZ()); i++) {
+            Block loc = Bukkit.getWorld(l.getWorld().getName()).getBlockAt(l.getBlockX(), i, l.getBlockZ());
+            Material type = loc.getType();
+            if (type == Material.ACACIA_LOG || type == Material.BIRCH_LOG || type == Material.DARK_OAK_LOG || type == Material.JUNGLE_LOG || type == Material.OAK_LOG || type == Material.SPRUCE_LOG) {
+                blocks.add(loc);
+            } else {
+                break;
+            }
+
+        }
+        for (Block block : blocks) {
+            block.breakNaturally(p.getInventory().getItemInMainHand());
+        }
+        blocks.clear();
+    }
+
+
+    @EventHandler
+    public void anvilname(PrepareAnvilEvent e) {
+        //cancle rename white dye
+        if (e.getResult() != null) {
+            if (e.getResult().getType() == Material.WHITE_DYE) {
+                e.setResult(null);
+            }
+        }
+
+        //anvil lore connection
+        try {
+            ItemStack[] list = e.getInventory().getContents();
+            if(e.getInventory().contains(Material.DIAMOND_PICKAXE) && e.getInventory().contains(Material.DIAMOND_PICKAXE)) {
+                for (ItemStack i : list) {
+
+                    if (Objects.requireNonNull(i.getItemMeta()).getLore() != null && Objects.requireNonNull(i.getItemMeta().getLore()).size() == 3 && i.getType() == Material.DIAMOND_PICKAXE) {
+                        List<String> lore = i.getItemMeta().getLore();
+                        if (lore.get(3).equals(pickaxe1.getItemMeta().getLore().get(3))) {
+                            ItemMeta meta = e.getResult().getItemMeta();
+                            meta.setLore(lore);
+                            e.getResult().setItemMeta(meta);
+
+
+                        }
+                    }
+                }
+            }
+        } catch (NullPointerException ex) {
+            return;
+        }
+    }
 
 }
