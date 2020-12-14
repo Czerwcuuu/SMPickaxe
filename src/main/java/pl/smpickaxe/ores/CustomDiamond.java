@@ -1,4 +1,4 @@
-package pl.smpickaxe;
+package pl.smpickaxe.ores;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -16,6 +16,7 @@ public class CustomDiamond {
         ItemMeta meta = customdiamond.getItemMeta();
         ArrayList<String> lore = new ArrayList<>();
         lore.add("Bardzo Rzadki Rubin, pilnuj go!");
+        lore.add("Używany do stworzenia kilofa 2x1!");
         meta.setLore(lore);
         meta.setDisplayName(ChatColor.DARK_RED + "Rubin");
         customdiamond.setItemMeta(meta);

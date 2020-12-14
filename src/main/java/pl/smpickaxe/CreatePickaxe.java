@@ -11,7 +11,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 
 public class CreatePickaxe {
-    public static ItemStack newPickaxe(String ile, ItemStack A, ItemStack B, ItemStack C, ItemStack I, ItemStack out) {
+    public static ItemStack newPickaxe(String nazwa,String ile, ItemStack A, ItemStack B, ItemStack C, ItemStack I, ItemStack out) {
         NamespacedKey klucz = new NamespacedKey(Smpickaxe.getInstance(), "k" + ile);
 
         ItemMeta meta = out.getItemMeta();
@@ -19,13 +19,11 @@ public class CreatePickaxe {
         ArrayList<String> lorek1 = new ArrayList<>();
         if (ile.equals("1")) {
             lorek1.add("Siekiera zcinajaca drzewa");
-            meta.setDisplayName(ChatColor.BLUE + "Timber");
+            meta.setDisplayName(ChatColor.BLUE + "Rubinowa Siekiera");
         } else {
             lorek1.add("Kilof kopiący tunel " + ile);
-            meta.setDisplayName(ChatColor.BLUE + "Kilof " + ile);
+            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&',"&4&l"+ nazwa + " Kilof ") );
         }
-        lorek1.add("Możesz go ulepszyć!");
-        lorek1.add("Możesz go użyć tylko na mapie surowcowej!");
 
 
         meta.setLore(lorek1);

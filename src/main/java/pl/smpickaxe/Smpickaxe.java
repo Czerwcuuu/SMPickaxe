@@ -1,6 +1,7 @@
 package pl.smpickaxe;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import pl.smpickaxe.commands.GivePickaxe;
 
 public final class Smpickaxe extends JavaPlugin {
 
@@ -14,6 +15,7 @@ public final class Smpickaxe extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         plugin = this;
+        this.getCommand("smpickaxe").setExecutor(new GivePickaxe());
         getServer().getPluginManager().registerEvents(new Events(), this);
 
     }

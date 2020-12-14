@@ -4,4 +4,5 @@ main: pl.smpickaxe.Smpickaxe
 api-version: 1.16
 authors: [czerwcuu]
 commands:
-  cobbleoff:
+  smpickaxe:
+    description: Customowe kilofy SM (dla Administracji)
