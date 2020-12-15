@@ -1,5 +1,6 @@
 package pl.smpickaxe;
 
+import org.bukkit.block.CreatureSpawner;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.smpickaxe.commands.GivePickaxe;
 

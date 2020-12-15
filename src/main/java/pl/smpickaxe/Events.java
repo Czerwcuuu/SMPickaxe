@@ -61,7 +61,9 @@ public class Events implements Listener {
 
     @EventHandler
     public void BreakDiamondEvent(BlockBreakEvent e) {
-        if (!e.isCancelled()) {
+        if (e.isCancelled()){
+            return;
+        }
             ItemStack hand = e.getPlayer().getInventory().getItemInMainHand();
             Block block = e.getBlock();
             if (!block.getDrops(hand).isEmpty()) {
@@ -73,19 +75,42 @@ public class Events implements Listener {
                         int rand_bedrock = (int) (Math.random() * (2000 - 1 + 1) + 1);
                         if (rand_rubin == 130) {
                             Bukkit.broadcastMessage("§b§lGracz " + e.getPlayer().getName() + " wykopał rzadki rubin! Gratulacje!");
-                            block.getWorld().dropItemNaturally(block.getLocation(), CustomDiamond.createCustomDiamond());
+                            if (e.isCancelled()){
+                                return;
+                            }
+                            else{
+                                block.getWorld().dropItemNaturally(block.getLocation(), CustomDiamond.createCustomDiamond());
+                            }
+
                         }
                         if (rand_meteor == 450) {
                             Bukkit.broadcastMessage("§6§lGracz " + e.getPlayer().getName() + " wykopał starożytny meteoryt! Gratulacje!");
-                            block.getWorld().dropItemNaturally(block.getLocation(), Meteorite.createMeteorite());
+                            if (e.isCancelled()){
+                                return;
+                            }
+                            else{
+                                block.getWorld().dropItemNaturally(block.getLocation(), Meteorite.createMeteorite());
+                            }
+
                         }
                         if (rand_platinum == 760) {
                             Bukkit.broadcastMessage("§4§lGracz " + e.getPlayer().getName() + " wykopał bezcenną platynę! Gratulacje!");
-                            block.getWorld().dropItemNaturally(block.getLocation(), Platinium.createPlatinium());
+                            if (e.isCancelled()){
+                                return;
+                            }
+                            else{
+                                block.getWorld().dropItemNaturally(block.getLocation(), Platinium.createPlatinium());
+                            }
                         }
                         if (rand_bedrock == 1001) {
                             Bukkit.broadcastMessage("§0§lGracz " + e.getPlayer().getName() + " wykopał bedrock O_o! Gratulacje!");
-                            block.getWorld().dropItemNaturally(block.getLocation(), Bedrock.createBedrock());
+                            if (e.isCancelled()){
+                                return;
+                            }
+                            else{
+                                block.getWorld().dropItemNaturally(block.getLocation(), Bedrock.createBedrock());
+                            }
+
                         }
                     }
                 }
@@ -93,7 +118,6 @@ public class Events implements Listener {
 
             }
         }
-    }
 
     @EventHandler
     public void getBlockFace(PlayerInteractEvent e) {
