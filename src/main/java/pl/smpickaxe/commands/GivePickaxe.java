@@ -51,7 +51,8 @@ public class GivePickaxe implements CommandExecutor {
 
         }
         else{
-            return false;
+            return true;
         }
+
     }
 }

@@ -8,6 +8,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.inventory.PrepareAnvilEvent;
@@ -59,11 +60,9 @@ public class Events implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void BreakDiamondEvent(BlockBreakEvent e) {
-        if (e.isCancelled()){
-            return;
-        }
+        if (!e.isCancelled()){
             ItemStack hand = e.getPlayer().getInventory().getItemInMainHand();
             Block block = e.getBlock();
             if (!block.getDrops(hand).isEmpty()) {
@@ -75,41 +74,21 @@ public class Events implements Listener {
                         int rand_bedrock = (int) (Math.random() * (2000 - 1 + 1) + 1);
                         if (rand_rubin == 130) {
                             Bukkit.broadcastMessage("§b§lGracz " + e.getPlayer().getName() + " wykopał rzadki rubin! Gratulacje!");
-                            if (e.isCancelled()){
-                                return;
-                            }
-                            else{
-                                block.getWorld().dropItemNaturally(block.getLocation(), CustomDiamond.createCustomDiamond());
-                            }
+                            block.getWorld().dropItemNaturally(block.getLocation(), CustomDiamond.createCustomDiamond());
 
                         }
                         if (rand_meteor == 450) {
                             Bukkit.broadcastMessage("§6§lGracz " + e.getPlayer().getName() + " wykopał starożytny meteoryt! Gratulacje!");
-                            if (e.isCancelled()){
-                                return;
-                            }
-                            else{
-                                block.getWorld().dropItemNaturally(block.getLocation(), Meteorite.createMeteorite());
-                            }
+                            block.getWorld().dropItemNaturally(block.getLocation(), Meteorite.createMeteorite());
 
                         }
                         if (rand_platinum == 760) {
                             Bukkit.broadcastMessage("§4§lGracz " + e.getPlayer().getName() + " wykopał bezcenną platynę! Gratulacje!");
-                            if (e.isCancelled()){
-                                return;
-                            }
-                            else{
-                                block.getWorld().dropItemNaturally(block.getLocation(), Platinium.createPlatinium());
-                            }
+                            block.getWorld().dropItemNaturally(block.getLocation(), Platinium.createPlatinium());
                         }
                         if (rand_bedrock == 1001) {
                             Bukkit.broadcastMessage("§0§lGracz " + e.getPlayer().getName() + " wykopał bedrock O_o! Gratulacje!");
-                            if (e.isCancelled()){
-                                return;
-                            }
-                            else{
-                                block.getWorld().dropItemNaturally(block.getLocation(), Bedrock.createBedrock());
-                            }
+                            block.getWorld().dropItemNaturally(block.getLocation(), Bedrock.createBedrock());
 
                         }
                     }
@@ -118,6 +97,7 @@ public class Events implements Listener {
 
             }
         }
+    }
 
     @EventHandler
     public void getBlockFace(PlayerInteractEvent e) {
