@@ -6,11 +6,11 @@ import org.bukkit.entity.EntityType;
 public class EntityTypesInSpawner {
 
     public static EntityType RandomEntityType(){
-        int rand = (int) (Math.random() * (18 - 1 + 1) + 1);
+        int rand = (int) (Math.random() * (17 - 1 + 1) + 1);
         switch(rand){
             case 1:return EntityType.CAVE_SPIDER;
             case 2:return EntityType.CHICKEN;
-            case 3:return EntityType.COW;
+            case 3:return EntityType.SLIME;
             case 4:return EntityType.CREEPER;
             case 5:return EntityType.ENDERMAN;
             case 6:return EntityType.GHAST;
@@ -23,9 +23,8 @@ public class EntityTypesInSpawner {
             case 13:return EntityType.SPIDER;
             case 14:return EntityType.SKELETON;
             case 15:return EntityType.SQUID;
-            case 16:return EntityType.WITHER_SKELETON;
-            case 17:return EntityType.ZOMBIE;
-            case 18:return EntityType.PIG;
+            case 16:return EntityType.ZOMBIE;
+            case 17:return EntityType.PIG;
             default:return EntityType.PIG;
 
 
