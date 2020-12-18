@@ -3,11 +3,10 @@ package pl.smpickaxe.commands;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import pl.smpickaxe.ores.Bedrock;
-import pl.smpickaxe.ores.CustomDiamond;
-import pl.smpickaxe.ores.Meteorite;
-import pl.smpickaxe.ores.Platinium;
+import pl.smpickaxe.ores.*;
+import pl.smpickaxe.utils.SpawnersUtil;
 
 public class GivePickaxe implements CommandExecutor {
 
@@ -38,6 +37,14 @@ public class GivePickaxe implements CommandExecutor {
                         p.getInventory().addItem(Bedrock.createBedrock());
                         return true;
                     }
+                    else if(args[0].equalsIgnoreCase("netheritium")){
+                        p.getInventory().addItem(Netherium.createNetherium());
+                        return true;
+                    }
+                    else if(args[0].equalsIgnoreCase("spawner")){
+                        p.getInventory().addItem(SpawnersUtil.CreateSpawner(EntityType.COW,"Creeperów"));
+                        return true;
+                    }
                     else{
                         p.sendMessage("Nie ma takiego materiału");
                         return false;
@@ -45,14 +52,9 @@ public class GivePickaxe implements CommandExecutor {
                 }
                 else return false;
             }
-            else{
-                return false;
-            }
-
+            else return false;
         }
-        else{
-            return true;
-        }
+        else return true;
 
     }
 }

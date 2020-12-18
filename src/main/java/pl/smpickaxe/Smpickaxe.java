@@ -2,6 +2,9 @@ package pl.smpickaxe;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.smpickaxe.commands.GivePickaxe;
+import pl.smpickaxe.events.Events;
+import pl.smpickaxe.events.RandomSpawnerChestEvents;
+import pl.smpickaxe.utils.CreatePickaxe;
 
 public final class Smpickaxe extends JavaPlugin {
 
@@ -17,6 +20,7 @@ public final class Smpickaxe extends JavaPlugin {
         plugin = this;
         this.getCommand("smpickaxe").setExecutor(new GivePickaxe());
         getServer().getPluginManager().registerEvents(new Events(), this);
+        getServer().getPluginManager().registerEvents(new RandomSpawnerChestEvents(), this);
 
     }
 
@@ -27,6 +31,7 @@ public final class Smpickaxe extends JavaPlugin {
         CreatePickaxe.recipe_unregister("2x2");
         CreatePickaxe.recipe_unregister("2x3");
         CreatePickaxe.recipe_unregister("3x3");
+        CreatePickaxe.recipe_unregister("2x2spawnery");
         CreatePickaxe.recipe_unregister("1");
     }
 

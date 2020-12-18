@@ -1,4 +1,4 @@
-package pl.smpickaxe;
+package pl.smpickaxe.events;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -15,10 +15,9 @@ import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import pl.smpickaxe.ores.Bedrock;
-import pl.smpickaxe.ores.CustomDiamond;
-import pl.smpickaxe.ores.Meteorite;
-import pl.smpickaxe.ores.Platinium;
+import pl.smpickaxe.ores.*;
+import pl.smpickaxe.utils.BlockBreakEventExtension;
+import pl.smpickaxe.utils.CreatePickaxe;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -31,6 +30,7 @@ public class Events implements Listener {
     ItemStack pickaxe2 = CreatePickaxe.newPickaxe("Meteorytowy","2x2", Meteorite.createMeteorite(), Meteorite.createMeteorite(), new ItemStack(Material.AIR), new ItemStack(Material.STICK), new ItemStack(Material.DIAMOND_PICKAXE));
     ItemStack pickaxe3 = CreatePickaxe.newPickaxe("Platynowy","2x3", Platinium.createPlatinium(), Platinium.createPlatinium(), new ItemStack(Material.AIR), new ItemStack(Material.STICK), new ItemStack(Material.DIAMOND_PICKAXE));
     ItemStack pickaxe4 = CreatePickaxe.newPickaxe("Bedrockowy","3x3", Bedrock.createBedrock(), Bedrock.createBedrock(), new ItemStack(Material.AIR), new ItemStack(Material.STICK), new ItemStack(Material.DIAMOND_PICKAXE));
+    ItemStack pickaxe5 = CreatePickaxe.newPickaxe("Netheriumowy","2x2spawnery", Netherium.createNetherium(), Netherium.createNetherium(), new ItemStack(Material.AIR), new ItemStack(Material.STICK), new ItemStack(Material.DIAMOND_PICKAXE));
     ItemStack axe = CreatePickaxe.newPickaxe("Timber","1", CustomDiamond.createCustomDiamond(), new ItemStack(Material.AIR), CustomDiamond.createCustomDiamond(), new ItemStack(Material.STICK), new ItemStack(Material.DIAMOND_AXE));
 
     private void getNearbyBlock(Player p, int uno, int dos, int tres, BlockBreakEvent e) {
@@ -45,10 +45,10 @@ public class Events implements Listener {
             if (mat.equals(Material.CHEST) || mat.equals(Material.ENDER_CHEST) || mat.equals(Material.BEACON)) {
                 p.sendMessage("Wokół Ciebie są nielegalne bloki!");
             } else {
-                if (e instanceof MojaZajebistaKlasa) {
+                if (e instanceof BlockBreakEventExtension) {
                     return;
                 }
-                MojaZajebistaKlasa fakeEvent = new MojaZajebistaKlasa(a.getBlock(), p);
+                BlockBreakEventExtension fakeEvent = new BlockBreakEventExtension(a.getBlock(), p);
                 Bukkit.getPluginManager().callEvent(fakeEvent);
 
                 if (!fakeEvent.isCancelled()) {
@@ -92,6 +92,14 @@ public class Events implements Listener {
 
                         }
                     }
+                    else if(block.getType() == Material.NETHER_QUARTZ_ORE){
+                        int rand_netheritium = (int) (Math.random() * (1800 - 1 + 1) + 1);
+                        if (rand_netheritium == 1321) {
+                            Bukkit.broadcastMessage("§6§lGracz " + e.getPlayer().getName() + " wykopał netherium! Gratulacje!");
+                            block.getWorld().dropItemNaturally(block.getLocation(), Netherium.createNetherium());
+
+                        }
+                    }
                 }
 
 
@@ -117,7 +125,7 @@ public class Events implements Listener {
 
     @EventHandler
     public void BreakUsingPickaxe(BlockBreakEvent e) {
-        if (e instanceof MojaZajebistaKlasa) {
+        if (e instanceof BlockBreakEventExtension) {
             return;
         }
         Player p = e.getPlayer();
@@ -184,6 +192,8 @@ public class Events implements Listener {
             return 3;
         } else if (lore.get(0).equals(pickaxe4.getItemMeta().getLore().get(0))) {
             return 4;
+        }else if (lore.get(0).equals(pickaxe5.getItemMeta().getLore().get(0))) {
+            return 0;
         }
         return 0;
     }

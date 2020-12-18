@@ -1,4 +1,4 @@
-package pl.smpickaxe;
+package pl.smpickaxe.utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
+import pl.smpickaxe.Smpickaxe;
 
 import java.util.ArrayList;
 
@@ -20,7 +21,12 @@ public class CreatePickaxe {
         if (ile.equals("1")) {
             lorek1.add("Siekiera zcinajaca drzewa");
             meta.setDisplayName(ChatColor.BLUE + "Rubinowa Siekiera");
-        } else {
+        }
+        else if (ile.equals("2x2spawnery")) {
+            lorek1.add("Kilof potrafiący wykopać Spawner");
+            meta.setDisplayName(ChatColor.GOLD + "Netheriumowy Kilof");
+        }
+        else {
             lorek1.add("Kilof kopiący tunel " + ile);
             meta.setDisplayName(ChatColor.translateAlternateColorCodes('&',"&4&l"+ nazwa + " Kilof ") );
         }
