@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import pl.smpickaxe.ores.*;
-import pl.smpickaxe.utils.SpawnersUtil;
+import pl.smpickaxe.spawners.SpawnersUtil;
 
 public class GivePickaxe implements CommandExecutor {
 

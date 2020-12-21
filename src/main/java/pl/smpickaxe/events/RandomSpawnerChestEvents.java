@@ -8,17 +8,15 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import pl.smpickaxe.ores.Netherium;
-import pl.smpickaxe.utils.RandomSpawnerChest;
-import pl.smpickaxe.utils.SpawnersUtil;
+import pl.smpickaxe.spawners.RandomSpawnerChest;
+import pl.smpickaxe.spawners.SpawnersUtil;
 
 import java.util.List;
-import java.util.Objects;
 
 public class RandomSpawnerChestEvents implements Listener {
+    //place spawner loot box event
     @EventHandler
     public void RandomSpawnerChestPlace(BlockPlaceEvent e){
         int amount = e.getPlayer().getInventory().getItemInMainHand().getAmount();
@@ -32,6 +30,7 @@ public class RandomSpawnerChestEvents implements Listener {
         }
 
     }
+    //**Spawner Destroy Event
     @EventHandler
     public void SpawnerDestroy(BlockBreakEvent e){
         if(!e.getBlock().getType().equals(Material.SPAWNER))return;
@@ -48,6 +47,7 @@ public class RandomSpawnerChestEvents implements Listener {
 
     }
 
+    //**Crouch spawner loot box opening event
     @EventHandler
     public void OnCrouchRightclick(PlayerInteractEvent e) {
         Player player = e.getPlayer();

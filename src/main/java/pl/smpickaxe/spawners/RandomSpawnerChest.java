@@ -1,4 +1,4 @@
-package pl.smpickaxe.utils;
+package pl.smpickaxe.spawners;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -11,6 +11,7 @@ public class RandomSpawnerChest {
     private RandomSpawnerChest() {
     }
 
+    //Random chest creator
     public static ItemStack createRandomSpawnerChest() {
         ItemStack chest = new ItemStack(Material.CHEST);
         ItemMeta meta = chest.getItemMeta();

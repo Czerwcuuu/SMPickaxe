@@ -1,10 +1,10 @@
 
-package pl.smpickaxe.utils;
+package pl.smpickaxe.spawners;
 
 import org.bukkit.entity.EntityType;
 
 public class EntityTypesInSpawner {
-
+    //Random EntityType
     public static EntityType RandomEntityType(){
         int rand = (int) (Math.random() * (17 - 1 + 1) + 1);
         switch(rand){
@@ -13,7 +13,6 @@ public class EntityTypesInSpawner {
             case 3:return EntityType.SLIME;
             case 4:return EntityType.CREEPER;
             case 5:return EntityType.ENDERMAN;
-            case 6:return EntityType.GHAST;
             case 7:return EntityType.HOGLIN;
             case 8:return EntityType.PHANTOM;
             case 9:return EntityType.PIGLIN;

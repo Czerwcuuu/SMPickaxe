@@ -1,9 +1,7 @@
-package pl.smpickaxe.utils;
+package pl.smpickaxe.spawners;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.entity.EntityType;
@@ -11,12 +9,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import pl.smpickaxe.spawners.EntityTypesInSpawner;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SpawnersUtil {
+    //spawner's lore
     static ArrayList<String> lore = new ArrayList<>();
+    //spawner creator
     public static ItemStack CreateSpawner(EntityType type,String mobName){
                 ItemStack item = new ItemStack(Material.SPAWNER);
                 ItemMeta meta = item.getItemMeta();
@@ -33,7 +33,7 @@ public class SpawnersUtil {
                 item.setItemMeta(bsm);
                 return item;
     }
-
+    //It's getting random spawner from chcest using EntityTypeInSpawner
     public static void GetRandomSpawner(Player p){
         int rand = (int) (Math.random() * (100 - 1 + 1) + 1);
         if(rand>=70){
