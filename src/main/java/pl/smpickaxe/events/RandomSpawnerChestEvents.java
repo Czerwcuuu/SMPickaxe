@@ -36,6 +36,7 @@ public class RandomSpawnerChestEvents implements Listener {
         if(!e.getBlock().getType().equals(Material.SPAWNER))return;
         if(!e.getPlayer().getItemInHand().getItemMeta().hasLore()) return;
         if(!e.getPlayer().getItemInHand().getType().equals(Material.DIAMOND_PICKAXE)) return;
+        if(e.isCancelled()) return;
         ItemMeta meta = e.getPlayer().getItemInHand().getItemMeta();
         List<String> lore = meta.getLore();
 
