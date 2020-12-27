@@ -33,6 +33,7 @@ public class RandomSpawnerChestEvents implements Listener {
     //**Spawner Destroy Event
     @EventHandler
     public void SpawnerDestroy(BlockBreakEvent e){
+        if(e.isCancelled()) return;
         if(!e.getBlock().getType().equals(Material.SPAWNER))return;
         if(!e.getPlayer().getItemInHand().getItemMeta().hasLore()) return;
         if(!e.getPlayer().getItemInHand().getType().equals(Material.DIAMOND_PICKAXE)) return;

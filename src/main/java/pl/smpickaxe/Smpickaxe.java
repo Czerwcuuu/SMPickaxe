@@ -30,7 +30,7 @@ public final class Smpickaxe extends JavaPlugin {
         CreatePickaxe.recipe_unregister("1x2");
         CreatePickaxe.recipe_unregister("2x2");
         CreatePickaxe.recipe_unregister("2x3");
-        CreatePickaxe.recipe_unregister("3x3");
+        CreatePickaxe.recipe_unregister("3x3_");
         CreatePickaxe.recipe_unregister("2x2spawnery");
         CreatePickaxe.recipe_unregister("1");
     }

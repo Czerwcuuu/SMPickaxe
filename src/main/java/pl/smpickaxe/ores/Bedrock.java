@@ -15,7 +15,7 @@ public class Bedrock {
         ItemStack bd = new ItemStack(Material.BEDROCK);
         ItemMeta meta = bd.getItemMeta();
         ArrayList<String> lore = new ArrayList<>();
-        lore.add("Najrzadszy surowiec na serwerze!");
+        lore.add("Najtwardsza skała na serwerze!");
         lore.add("Używany do stworzenia kilofa 3x3!");
         meta.setLore(lore);
         meta.setDisplayName(ChatColor.BLACK + "Bedrock");

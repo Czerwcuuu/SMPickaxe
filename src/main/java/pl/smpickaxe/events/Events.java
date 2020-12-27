@@ -15,21 +15,20 @@ import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import pl.smpickaxe.loggers.*;
 import pl.smpickaxe.ores.*;
 import pl.smpickaxe.utils.BlockBreakEventExtension;
 import pl.smpickaxe.utils.CreatePickaxe;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class Events implements Listener {
     public static HashMap<String, Integer> blockFace = new HashMap<>();
     ItemStack pickaxe1 = CreatePickaxe.newPickaxe("Rubinowy","1x2", CustomDiamond.createCustomDiamond(), CustomDiamond.createCustomDiamond(), new ItemStack(Material.AIR), new ItemStack(Material.STICK), new ItemStack(Material.DIAMOND_PICKAXE));
     ItemStack pickaxe2 = CreatePickaxe.newPickaxe("Meteorytowy","2x2", Meteorite.createMeteorite(), Meteorite.createMeteorite(), new ItemStack(Material.AIR), new ItemStack(Material.STICK), new ItemStack(Material.DIAMOND_PICKAXE));
     ItemStack pickaxe3 = CreatePickaxe.newPickaxe("Platynowy","2x3", Platinium.createPlatinium(), Platinium.createPlatinium(), new ItemStack(Material.AIR), new ItemStack(Material.STICK), new ItemStack(Material.DIAMOND_PICKAXE));
-    ItemStack pickaxe4 = CreatePickaxe.newPickaxe("Bedrockowy","3x3", Bedrock.createBedrock(), Bedrock.createBedrock(), new ItemStack(Material.AIR), new ItemStack(Material.STICK), new ItemStack(Material.DIAMOND_PICKAXE));
+    ItemStack pickaxe4 = CreatePickaxe.newPickaxe("Bedrockowy","3x3_", Bedrock.createBedrock(), Bedrock.createBedrock(), new ItemStack(Material.AIR), new ItemStack(Material.STICK), new ItemStack(Material.DIAMOND_PICKAXE));
     ItemStack pickaxe5 = CreatePickaxe.newPickaxe("Netheriumowy","2x2spawnery", Netherium.createNetherium(), Netherium.createNetherium(), new ItemStack(Material.AIR), new ItemStack(Material.STICK), new ItemStack(Material.DIAMOND_PICKAXE));
     ItemStack axe = CreatePickaxe.newPickaxe("Timber","1", CustomDiamond.createCustomDiamond(), new ItemStack(Material.AIR), CustomDiamond.createCustomDiamond(), new ItemStack(Material.STICK), new ItemStack(Material.DIAMOND_AXE));
 
@@ -75,20 +74,40 @@ public class Events implements Listener {
                         if (rand_rubin == 130) {
                             Bukkit.broadcastMessage("§b§lGracz " + e.getPlayer().getName() + " wykopał rzadki rubin! Gratulacje!");
                             block.getWorld().dropItemNaturally(block.getLocation(), CustomDiamond.createCustomDiamond());
+                            Date now = new Date();
+                            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                            Rubin_Logger log = new Rubin_Logger();
+                            String sum =  "[" + format.format(now) + "]" + e.getPlayer().getName() + " wykopał rubin";
+                            log.logToFile(sum);
 
                         }
                         if (rand_meteor == 450) {
                             Bukkit.broadcastMessage("§6§lGracz " + e.getPlayer().getName() + " wykopał starożytny meteoryt! Gratulacje!");
                             block.getWorld().dropItemNaturally(block.getLocation(), Meteorite.createMeteorite());
+                            Date now = new Date();
+                            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                            Meteor_Logger log = new Meteor_Logger();
+                            String sum =  "[" + format.format(now) + "]" + e.getPlayer().getName() + " wykopał meteoryt";
+                            log.logToFile(sum);
 
                         }
                         if (rand_platinum == 760) {
                             Bukkit.broadcastMessage("§4§lGracz " + e.getPlayer().getName() + " wykopał bezcenną platynę! Gratulacje!");
                             block.getWorld().dropItemNaturally(block.getLocation(), Platinium.createPlatinium());
+                            Date now = new Date();
+                            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                            Platinum_Logger log = new Platinum_Logger();
+                            String sum =  "[" + format.format(now) + "]" + e.getPlayer().getName() + " wykopał platyne";
+                            log.logToFile(sum);
                         }
                         if (rand_bedrock == 1001) {
                             Bukkit.broadcastMessage("§0§lGracz " + e.getPlayer().getName() + " wykopał bedrock O_o! Gratulacje!");
                             block.getWorld().dropItemNaturally(block.getLocation(), Bedrock.createBedrock());
+                            Date now = new Date();
+                            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                            Bedrock_Logger log = new Bedrock_Logger();
+                            String sum =  "[" + format.format(now) + "]" + e.getPlayer().getName() + " wykopał bedrock";
+                            log.logToFile(sum);
 
                         }
                     }
@@ -97,6 +116,11 @@ public class Events implements Listener {
                         if (rand_netheritium == 1321) {
                             Bukkit.broadcastMessage("§6§lGracz " + e.getPlayer().getName() + " wykopał netherium! Gratulacje!");
                             block.getWorld().dropItemNaturally(block.getLocation(), Netherium.createNetherium());
+                            Date now = new Date();
+                            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                            Netheritium_Logger log = new Netheritium_Logger();
+                            String sum =  "[" + format.format(now) + "]" + e.getPlayer().getName() + " wykopał netherium";
+                            log.logToFile(sum);
 
                         }
                     }
