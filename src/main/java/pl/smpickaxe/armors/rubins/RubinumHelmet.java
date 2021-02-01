@@ -16,10 +16,12 @@ import org.bukkit.inventory.meta.ItemMeta;
 import pl.smpickaxe.Smpickaxe;
 import pl.smpickaxe.ores.CustomDiamond;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class RubinumHelmet {
     public static final NamespacedKey RUBIN_HELMET = new NamespacedKey(Smpickaxe.getInstance(), "rubinhelmet");
+    static ArrayList<String> lore = new ArrayList<>();
 
     private RubinumHelmet() {
     }
@@ -29,9 +31,13 @@ public class RubinumHelmet {
 
         ItemMeta meta = helmet.getItemMeta();
         meta.setDisplayName(ChatColor.BLUE + "Rubinowy Hełm");
+        lore.add("Hełm z rubinu");
+        lore.add("Przedmiot dodaje 2HP");
+        meta.setLore(lore);
+
 
         //Modifier max health
-        AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(),"generic.maxHealth",10,AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD);
+        AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(),"generic.maxHealth",4,AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD);
         meta.addAttributeModifier(Attribute.GENERIC_MAX_HEALTH,modifier);
 
         helmet.setItemMeta(meta);
@@ -42,11 +48,11 @@ public class RubinumHelmet {
     public static void register() {
         ItemStack ore = CustomDiamond.createCustomDiamond();
         RecipeChoice k1 = new RecipeChoice.ExactChoice(ore);
-        ItemStack item = RubinumHelmet.create();
+        ItemStack item = create();
 
         ShapedRecipe rec = new ShapedRecipe(RUBIN_HELMET, item);
 
-        rec.shape("AAA", "ABA", "AAA");
+        rec.shape(" A ", "ABA", " A ");
         rec.setIngredient('A', k1);
         rec.setIngredient('B', Material.NETHERITE_HELMET);
 

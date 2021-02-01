@@ -1,8 +1,12 @@
 package pl.smpickaxe;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import pl.smpickaxe.armors.rubins.RubinumBoots;
+import pl.smpickaxe.armors.rubins.RubinumChestplate;
 import pl.smpickaxe.armors.rubins.RubinumHelmet;
+import pl.smpickaxe.armors.rubins.RubinumLeggins;
 import pl.smpickaxe.commands.GivePickaxe;
+import pl.smpickaxe.config.ArmorsConfig;
 import pl.smpickaxe.events.Events;
 import pl.smpickaxe.events.RandomSpawnerChestEvents;
 import pl.smpickaxe.utils.CreatePickaxe;
@@ -19,7 +23,17 @@ public final class Smpickaxe extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         plugin = this;
-        RubinumHelmet.register();
+
+        //Config
+        getConfig().options().copyDefaults(true);
+        saveConfig();
+
+        //Register rubinium armors
+        /*RubinumHelmet.register();
+        RubinumChestplate.register();
+        RubinumLeggins.register();
+        RubinumBoots.register();*/
+        ArmorsConfig.setup();
         this.getCommand("smpickaxe").setExecutor(new GivePickaxe());
         getServer().getPluginManager().registerEvents(new Events(), this);
         getServer().getPluginManager().registerEvents(new RandomSpawnerChestEvents(), this);
@@ -37,8 +51,11 @@ public final class Smpickaxe extends JavaPlugin {
         CreatePickaxe.recipe_unregister("2x2spawnery");
         CreatePickaxe.recipe_unregister("1");
 
-        //Armors
-        RubinumHelmet.unregister();
+        //Armors Rubinium
+        /*RubinumHelmet.unregister();
+        RubinumChestplate.unregister();
+        RubinumLeggins.unregister();
+        RubinumBoots.unregister();*/
     }
 
 }
