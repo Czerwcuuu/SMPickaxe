@@ -13,6 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import pl.smpickaxe.spawners.RandomSpawnerChest;
 import pl.smpickaxe.spawners.SpawnersUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RandomSpawnerChestEvents implements Listener {
@@ -22,7 +23,10 @@ public class RandomSpawnerChestEvents implements Listener {
         int amount = e.getPlayer().getInventory().getItemInMainHand().getAmount();
         if(e.getItemInHand().getType().equals(Material.CHEST)){
             ItemStack item = e.getItemInHand();
-            if(item.getItemMeta().hasLore()){
+            ArrayList<String> lore = new ArrayList<>();
+            lore.add("Skrzynka z randomowym spawnerem!");
+            lore.add("Masz 50% szans, że wypadnie Ci spawner!");
+            if(item.getItemMeta().getLore().equals(lore)){
                 e.getPlayer().getInventory().getItemInMainHand().setAmount(e.getPlayer().getInventory().getItemInMainHand().getAmount()-1);
                 SpawnersUtil.GetRandomSpawner(e.getPlayer());
                 e.getBlock().setType(Material.AIR);
