@@ -67,10 +67,10 @@ public class Events implements Listener {
             if (!block.getDrops(hand).isEmpty()) {
                 if (!hand.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
                     if (block.getType() == Material.DIAMOND_ORE || block.getType() == Material.EMERALD) {
-                        int rand_rubin = (int) (Math.random() * (190 - 1 + 1) + 1);
-                        int rand_meteor = (int) (Math.random() * (500 - 1 + 1) + 1);
-                        int rand_platinum = (int) (Math.random() * (1000 - 1 + 1) + 1);
-                        int rand_bedrock = (int) (Math.random() * (2000 - 1 + 1) + 1);
+                        int rand_rubin = (int) (Math.random() * (230 - 1 + 1) + 1);
+                        int rand_meteor = (int) (Math.random() * (650 - 1 + 1) + 1);
+                        int rand_platinum = (int) (Math.random() * (1250 - 1 + 1) + 1);
+                        int rand_bedrock = (int) (Math.random() * (2500 - 1 + 1) + 1);
                         if (rand_rubin == 130) {
                             Bukkit.broadcastMessage("§b§lGracz " + e.getPlayer().getName() + " wykopał rzadki rubin! Gratulacje!");
                             block.getWorld().dropItemNaturally(block.getLocation(), CustomDiamond.createCustomDiamond());
