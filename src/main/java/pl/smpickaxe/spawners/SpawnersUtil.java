@@ -36,13 +36,13 @@ public class SpawnersUtil {
     //It's getting random spawner from chcest using EntityTypeInSpawner
     public static void GetRandomSpawner(Player p){
         int rand = (int) (Math.random() * (100 - 1 + 1) + 1);
-        if(rand>=70){
+        if(rand>=90){
                     EntityType entity = EntityTypesInSpawner.RandomEntityType();
                     p.sendMessage(ChatColor.translateAlternateColorCodes('&',"&4&lGratulacje wylosowałeś &6&lSpawner "+ entity.name()+"!"));
                     p.getInventory().addItem(CreateSpawner(entity,entity.name()));
         }
         else{
-            p.sendMessage(ChatColor.translateAlternateColorCodes('&',"&4&lPrzykro mi, skrzynka była pusta!"));
+            p.sendMessage(ChatColor.translateAlternateColorCodes('&',"&4&lPrzykro mi, skrzynka była pusta! &6&lMasz 10% na zdobycie spawnera!"));
         }
     }
 }

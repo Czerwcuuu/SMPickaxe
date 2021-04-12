@@ -8,6 +8,7 @@ import pl.smpickaxe.armors.rubins.RubinumLeggins;
 import pl.smpickaxe.commands.GivePickaxe;
 import pl.smpickaxe.config.ArmorsConfig;
 import pl.smpickaxe.events.Events;
+import pl.smpickaxe.events.PickaxeCraftEvent;
 import pl.smpickaxe.events.RandomSpawnerChestEvents;
 import pl.smpickaxe.utils.CreatePickaxe;
 
@@ -37,6 +38,7 @@ public final class Smpickaxe extends JavaPlugin {
         this.getCommand("smpickaxe").setExecutor(new GivePickaxe());
         getServer().getPluginManager().registerEvents(new Events(), this);
         getServer().getPluginManager().registerEvents(new RandomSpawnerChestEvents(), this);
+        getServer().getPluginManager().registerEvents(new PickaxeCraftEvent(), this);
 
 
     }
