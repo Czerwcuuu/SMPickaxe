@@ -1,10 +1,6 @@
 package pl.smpickaxe;
 
 import org.bukkit.plugin.java.JavaPlugin;
-import pl.smpickaxe.armors.rubins.RubinumBoots;
-import pl.smpickaxe.armors.rubins.RubinumChestplate;
-import pl.smpickaxe.armors.rubins.RubinumHelmet;
-import pl.smpickaxe.armors.rubins.RubinumLeggins;
 import pl.smpickaxe.commands.GivePickaxe;
 import pl.smpickaxe.config.ArmorsConfig;
 import pl.smpickaxe.events.Events;
@@ -29,11 +25,6 @@ public final class Smpickaxe extends JavaPlugin {
         getConfig().options().copyDefaults(true);
         saveConfig();
 
-        //Register rubinium armors
-        /*RubinumHelmet.register();
-        RubinumChestplate.register();
-        RubinumLeggins.register();
-        RubinumBoots.register();*/
         ArmorsConfig.setup();
         this.getCommand("smpickaxe").setExecutor(new GivePickaxe());
         getServer().getPluginManager().registerEvents(new Events(), this);
