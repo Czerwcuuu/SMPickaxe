@@ -45,6 +45,10 @@ public class GivePickaxe implements CommandExecutor {
                         p.getInventory().addItem(SpawnersUtil.CreateSpawner(EntityType.COW,"Creeperów"));
                         return true;
                     }
+                    else if(args[0].equalsIgnoreCase("spawner")){
+                        p.getInventory().addItem(KE.createEmber());
+                        return true;
+                    }
                     else{
                         p.sendMessage("Nie ma takiego materiału");
                         return false;

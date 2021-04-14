@@ -66,11 +66,12 @@ public class Events implements Listener {
             Block block = e.getBlock();
             if (!block.getDrops(hand).isEmpty()) {
                 if (!hand.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
-                    if (block.getType() == Material.DIAMOND_ORE || block.getType() == Material.EMERALD) {
+                    if (block.getType() == Material.DIAMOND_ORE) {
                         int rand_rubin = (int) (Math.random() * (230 - 1 + 1) + 1);
                         int rand_meteor = (int) (Math.random() * (650 - 1 + 1) + 1);
                         int rand_platinum = (int) (Math.random() * (1250 - 1 + 1) + 1);
                         int rand_bedrock = (int) (Math.random() * (2500 - 1 + 1) + 1);
+
                         if (rand_rubin == 130) {
                             Bukkit.broadcastMessage("§b§lGracz " + e.getPlayer().getName() + " wykopał rzadki rubin! Gratulacje!");
                             block.getWorld().dropItemNaturally(block.getLocation(), CustomDiamond.createCustomDiamond());
@@ -108,6 +109,16 @@ public class Events implements Listener {
                             Bedrock_Logger log = new Bedrock_Logger();
                             String sum =  "[" + format.format(now) + "]" + e.getPlayer().getName() + " wykopał bedrock";
                             log.logToFile(sum);
+
+
+                        }
+
+                    }
+                    else if(block.getType() == Material.EMERALD_ORE || block.getType() == Material.LEGACY_EMERALD_ORE || block.getType() == Material.EMERALD) {
+                        int rand_ember = (int) (Math.random() * (5000 - 1 + 1) + 1);
+                        if (rand_ember == 3750) {
+                            Bukkit.broadcastMessage("§a§lGracz " + e.getPlayer().getName() + " wykopał kamień EMBER! Gratulacje!");
+                            block.getWorld().dropItemNaturally(block.getLocation(), KE.createEmber());
 
                         }
                     }
